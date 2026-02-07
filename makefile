@@ -12,13 +12,14 @@ POSTGRES_DB=insight_job_db
 up: start-docker
 	@echo "-- Levantando contenedores --"
 	docker compose up -d
+	@echo
 
 down:
 	@echo "-- Apagando contenedores --"
 	docker compose down
+	@echo
 
-restart: 
-	down up
+restart: down up
 
 logs:
 	docker compose logs -f
@@ -34,3 +35,4 @@ start-docker:
 check-docker:
 	@docker info >/dev/null 2>&1 || (echo "❌ Docker no está corriendo" && exit 1)
 	@echo "✅ Docker listo"
+	@echo

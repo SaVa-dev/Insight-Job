@@ -1,24 +1,27 @@
-services:
-  api:
-    build: ./backend/
-    container_name: jobs_backend
-    ports:
-      - "3000:3000"
-    volumes:
-      - "./backend:/backend"
-    depends_on:
-      - postgres
-    restart: unless-stopped
+  services:
+    api:
+      env_file:
+        - "./database/.env"
+        - "./backend/.env"
+      build: ./backend/
+      container_name: jobs_backend
+      ports:
+        - "3000:3000"
+      volumes:
+        - "./backend:/backend"
+      depends_on:
+        - postgres
+      restart: unless-stopped
 
-  postgres:
-    image: postgres:16
-    container_name: jobs_postgres
-    env_file: database/.env
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    restart: unless-stopped
+    postgres:
+      image: postgres:16
+      container_name: jobs_postgres
+      env_file: database/.env
+      ports:
+        - "5432:5432"
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+      restart: unless-stopped
 
-volumes:
-  postgres_data:
+  volumes:
+    postgres_data:

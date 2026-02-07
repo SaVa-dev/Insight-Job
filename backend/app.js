@@ -1,9 +1,10 @@
 import express from 'express'
+import env from './global.js'
 
 const server = express();
 
-server.get('/test', (req, res) =>{
-    res.send('Hola mundo!')
+server.get('/testenv', (req, res) =>{
+    res.send(`backend port: ${env.srv.port}, db port: ${env.db.port}`)
 })
 
 server.listen(3000, () =>{
