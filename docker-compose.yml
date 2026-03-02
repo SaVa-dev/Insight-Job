@@ -6,7 +6,7 @@
       build: ./backend/
       container_name: jobs_backend
       ports:
-        - "3000:3000"
+        - "80:80"
       volumes:
         - "./backend:/backend"
       depends_on:

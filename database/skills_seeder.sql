@@ -1,0 +1,138 @@
+-- ==========================================
+-- Skills Seeder - Tech & General
+-- ==========================================
+
+INSERT INTO skills (skill_id, name) VALUES
+
+-- Languages
+(gen_random_uuid(), 'Python'),
+(gen_random_uuid(), 'JavaScript'),
+(gen_random_uuid(), 'TypeScript'),
+(gen_random_uuid(), 'Java'),
+(gen_random_uuid(), 'C'),
+(gen_random_uuid(), 'C++'),
+(gen_random_uuid(), 'C#'),
+(gen_random_uuid(), 'Go'),
+(gen_random_uuid(), 'Rust'),
+(gen_random_uuid(), 'Ruby'),
+(gen_random_uuid(), 'PHP'),
+(gen_random_uuid(), 'Swift'),
+(gen_random_uuid(), 'Kotlin'),
+(gen_random_uuid(), 'Scala'),
+(gen_random_uuid(), 'R'),
+(gen_random_uuid(), 'MATLAB'),
+(gen_random_uuid(), 'Bash'),
+(gen_random_uuid(), 'PowerShell'),
+(gen_random_uuid(), 'Dart'),
+(gen_random_uuid(), 'Elixir'),
+(gen_random_uuid(), 'Haskell'),
+(gen_random_uuid(), 'Lua'),
+(gen_random_uuid(), 'Perl'),
+
+-- Frontend
+(gen_random_uuid(), 'React'),
+(gen_random_uuid(), 'Vue.js'),
+(gen_random_uuid(), 'Angular'),
+(gen_random_uuid(), 'Next.js'),
+(gen_random_uuid(), 'Nuxt.js'),
+(gen_random_uuid(), 'Svelte'),
+(gen_random_uuid(), 'HTML'),
+(gen_random_uuid(), 'CSS'),
+(gen_random_uuid(), 'Sass'),
+(gen_random_uuid(), 'Tailwind CSS'),
+(gen_random_uuid(), 'Bootstrap'),
+(gen_random_uuid(), 'Redux'),
+(gen_random_uuid(), 'Webpack'),
+(gen_random_uuid(), 'Vite'),
+
+-- Backend
+(gen_random_uuid(), 'Node.js'),
+(gen_random_uuid(), 'Express'),
+(gen_random_uuid(), 'FastAPI'),
+(gen_random_uuid(), 'Django'),
+(gen_random_uuid(), 'Flask'),
+(gen_random_uuid(), 'Spring Boot'),
+(gen_random_uuid(), 'Laravel'),
+(gen_random_uuid(), 'Rails'),
+(gen_random_uuid(), 'NestJS'),
+(gen_random_uuid(), 'GraphQL'),
+(gen_random_uuid(), 'REST API'),
+(gen_random_uuid(), 'gRPC'),
+
+-- Databases
+(gen_random_uuid(), 'PostgreSQL'),
+(gen_random_uuid(), 'MySQL'),
+(gen_random_uuid(), 'SQLite'),
+(gen_random_uuid(), 'MongoDB'),
+(gen_random_uuid(), 'Redis'),
+(gen_random_uuid(), 'Elasticsearch'),
+(gen_random_uuid(), 'Cassandra'),
+(gen_random_uuid(), 'DynamoDB'),
+(gen_random_uuid(), 'Firebase'),
+(gen_random_uuid(), 'Supabase'),
+(gen_random_uuid(), 'Oracle'),
+(gen_random_uuid(), 'SQL Server'),
+
+-- DevOps & Cloud
+(gen_random_uuid(), 'Docker'),
+(gen_random_uuid(), 'Kubernetes'),
+(gen_random_uuid(), 'AWS'),
+(gen_random_uuid(), 'Google Cloud'),
+(gen_random_uuid(), 'Azure'),
+(gen_random_uuid(), 'Terraform'),
+(gen_random_uuid(), 'Ansible'),
+(gen_random_uuid(), 'Jenkins'),
+(gen_random_uuid(), 'GitHub Actions'),
+(gen_random_uuid(), 'GitLab CI'),
+(gen_random_uuid(), 'CircleCI'),
+(gen_random_uuid(), 'Nginx'),
+(gen_random_uuid(), 'Linux'),
+
+-- Data & ML
+(gen_random_uuid(), 'Machine Learning'),
+(gen_random_uuid(), 'Deep Learning'),
+(gen_random_uuid(), 'TensorFlow'),
+(gen_random_uuid(), 'PyTorch'),
+(gen_random_uuid(), 'Scikit-learn'),
+(gen_random_uuid(), 'Pandas'),
+(gen_random_uuid(), 'NumPy'),
+(gen_random_uuid(), 'Spark'),
+(gen_random_uuid(), 'Hadoop'),
+(gen_random_uuid(), 'Airflow'),
+(gen_random_uuid(), 'Power BI'),
+(gen_random_uuid(), 'Tableau'),
+(gen_random_uuid(), 'dbt'),
+
+-- Mobile
+(gen_random_uuid(), 'React Native'),
+(gen_random_uuid(), 'Flutter'),
+(gen_random_uuid(), 'Android'),
+(gen_random_uuid(), 'iOS'),
+(gen_random_uuid(), 'Expo'),
+
+-- Tools & Practices
+(gen_random_uuid(), 'Git'),
+(gen_random_uuid(), 'Jira'),
+(gen_random_uuid(), 'Scrum'),
+(gen_random_uuid(), 'Agile'),
+(gen_random_uuid(), 'TDD'),
+(gen_random_uuid(), 'CI/CD'),
+(gen_random_uuid(), 'Microservices'),
+(gen_random_uuid(), 'System Design'),
+(gen_random_uuid(), 'Clean Architecture'),
+
+-- Security
+(gen_random_uuid(), 'Cybersecurity'),
+(gen_random_uuid(), 'Penetration Testing'),
+(gen_random_uuid(), 'OAuth'),
+(gen_random_uuid(), 'JWT'),
+(gen_random_uuid(), 'OWASP'),
+
+-- Soft skills
+(gen_random_uuid(), 'Communication'),
+(gen_random_uuid(), 'Teamwork'),
+(gen_random_uuid(), 'Problem Solving'),
+(gen_random_uuid(), 'Leadership'),
+(gen_random_uuid(), 'Time Management'),
+(gen_random_uuid(), 'Critical Thinking'),
+(gen_random_uuid(), 'Adaptability');

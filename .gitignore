@@ -1,2 +1,9 @@
 */.env
 backend/node_modules
+*/.venv
+*.csv
+*/cities5000.txt
+
+# Especificos de csv.
+
+database/locations_seeder.sql
