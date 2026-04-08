@@ -6,7 +6,7 @@
       build: ./backend/
       container_name: jobs_backend
       ports:
-        - "80:80"
+        - "3000:3000"
       volumes:
         - "./backend:/backend"
       depends_on:
@@ -21,6 +21,18 @@
         - "5432:5432"
       volumes:
         - postgres_data:/var/lib/postgresql/data
+      restart: unless-stopped
+
+    frontend:
+      build: ./frontend/
+      container_name: jobs_frontend
+      ports:
+        - "5173:5173"
+      volumes:
+        - "./frontend:/app"
+        - "/app/node_modules"
+      depends_on:
+        - api
       restart: unless-stopped
 
   volumes:

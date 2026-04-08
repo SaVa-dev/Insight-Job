@@ -1,6 +1,7 @@
 */.env
 backend/node_modules
 */.venv
+.vscode
 *.csv
 */cities5000.txt
 

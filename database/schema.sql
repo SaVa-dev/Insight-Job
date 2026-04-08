@@ -7,10 +7,11 @@
 CREATE TABLE users(
     user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     username VARCHAR(16) NOT NULL,
-    usermail VARCHAR(32) NOT NULL,
-    password VARCHAR(64) NOT NULL, -- hash SHA256
+    usermail VARCHAR(32) NOT NULL UNIQUE,
+    password VARCHAR(64) NOT NULL, -- hash bcrypt
     creation_date TIMESTAMP NOT NULL DEFAULT NOW(),
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    is_admin BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE companies(
