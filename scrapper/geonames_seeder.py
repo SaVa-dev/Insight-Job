@@ -1,5 +1,5 @@
-import csv
 import uuid
+from pathlib import Path
 
 # Códigos de país ISO -> nombre completo
 COUNTRY_NAMES = {
@@ -20,8 +20,12 @@ COUNTRY_NAMES = {
     'UY': 'Uruguay', 'VE': 'Venezuela', 'VN': 'Vietnam',
 }
 
-INPUT_FILE = 'cities5000.txt'
-OUTPUT_FILE = '../database/locations_seeder.sql'
+BASE_DIR = Path(__file__).resolve().parent
+INPUT_FILE = BASE_DIR / 'cities5000.txt'
+OUTPUT_FILES = [
+    BASE_DIR.parent / 'database' / 'locations_seeder.sql',
+]
+BATCH_SIZE = 1000
 
 # Columnas del archivo GeoNames
 # 0:geonameid, 1:name, 4:lat, 5:lng, 8:country_code, 10:admin1_code, 14:population
@@ -29,7 +33,7 @@ OUTPUT_FILE = '../database/locations_seeder.sql'
 seen = set()
 rows = []
 
-with open(INPUT_FILE, encoding='utf-8') as f:
+with INPUT_FILE.open(encoding='utf-8') as f:
     for line in f:
         cols = line.strip().split('\t')
         if len(cols) < 15:
@@ -49,18 +53,41 @@ with open(INPUT_FILE, encoding='utf-8') as f:
 
 print(f"✅ {len(rows)} locations parseadas")
 
-with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
-    f.write('-- Locations seeder (GeoNames cities5000)\n')
-    f.write('INSERT INTO locations (location_id, name, state, country, country_code) VALUES\n')
+for output_file in OUTPUT_FILES:
+    output_file.parent.mkdir(parents=True, exist_ok=True)
 
-    for i, (name, state, country, country_code) in enumerate(rows):
-        # escapar comillas simples
-        name    = name.replace("'", "''")
-        state   = state.replace("'", "''")
-        country = country.replace("'", "''")
+    with output_file.open('w', encoding='utf-8') as f:
+        f.write('-- Locations seeder (GeoNames cities5000)\n')
+        for start in range(0, len(rows), BATCH_SIZE):
+            batch = rows[start:start + BATCH_SIZE]
+            f.write(
+                'INSERT INTO locations (location_id, name, state, country, country_code)\n'
+                'SELECT src.location_id::uuid, src.name, src.state, src.country, src.country_code\n'
+                'FROM (\n'
+                'VALUES\n'
+            )
 
-        uid = str(uuid.uuid4())
-        comma = ',' if i < len(rows) - 1 else ';'
-        f.write(f"  ('{uid}', '{name}', '{state}', '{country}', '{country_code}'){comma}\n")
+            for i, (name, state, country, country_code) in enumerate(batch):
+                name = name.replace("'", "''")
+                state = state.replace("'", "''")
+                country = country.replace("'", "''")
+                uid = str(uuid.uuid4())
+                comma = ',' if i < len(batch) - 1 else ''
+                country_code_sql = 'NULL' if not country_code else f"'{country_code}'"
+                f.write(
+                    f"  ('{uid}', '{name}', '{state}', '{country}', {country_code_sql}){comma}\n"
+                )
 
-print(f"✅ Archivo generado: {OUTPUT_FILE}")
+            f.write(
+                ') AS src(location_id, name, state, country, country_code)\n'
+                'WHERE NOT EXISTS (\n'
+                '  SELECT 1\n'
+                '  FROM locations l\n'
+                '  WHERE l.name = src.name\n'
+                '    AND l.state = src.state\n'
+                '    AND l.country = src.country\n'
+                '    AND COALESCE(l.country_code, \'\') = COALESCE(src.country_code, \'\')\n'
+                ');\n\n'
+            )
+
+    print(f"✅ Archivo generado: {output_file}")

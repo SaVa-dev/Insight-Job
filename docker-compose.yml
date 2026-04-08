@@ -1,39 +1,49 @@
-  services:
-    api:
-      env_file:
-        - "./database/.env"
-        - "./backend/.env"
-      build: ./backend/
-      container_name: jobs_backend
-      ports:
-        - "3000:3000"
-      volumes:
-        - "./backend:/backend"
-      depends_on:
-        - postgres
-      restart: unless-stopped
+services:
+  api:
+    build:
+      context: ./backend/
+      target: dev
+    env_file:
+      - "./database/.env"
+      - "./backend/.env"
+    container_name: jobs_backend
+    environment:
+      FRONTEND_ORIGIN: http://localhost:5173
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./backend:/backend"
+      - "/backend/node_modules"
+    depends_on:
+      - postgres
+    restart: unless-stopped
 
-    postgres:
-      image: postgres:16
-      container_name: jobs_postgres
-      env_file: database/.env
-      ports:
-        - "5432:5432"
-      volumes:
-        - postgres_data:/var/lib/postgresql/data
-      restart: unless-stopped
+  postgres:
+    image: postgres:16
+    container_name: jobs_postgres
+    env_file: database/.env
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
 
-    frontend:
-      build: ./frontend/
-      container_name: jobs_frontend
-      ports:
-        - "5173:5173"
-      volumes:
-        - "./frontend:/app"
-        - "/app/node_modules"
-      depends_on:
-        - api
-      restart: unless-stopped
+  frontend:
+    build:
+      context: ./frontend/
+      target: dev
+    container_name: jobs_frontend
+    environment:
+      VITE_API_URL: /api
+      VITE_PROXY_TARGET: http://api:3000
+    ports:
+      - "5173:5173"
+    volumes:
+      - "./frontend:/app"
+      - "/app/node_modules"
+    depends_on:
+      - api
+    restart: unless-stopped
 
-  volumes:
-    postgres_data:
+volumes:
+  postgres_data:

@@ -1,0 +1,55 @@
+fullnameOverride: insight-job
+
+global:
+  labels: {}
+
+frontend:
+  replicaCount: 1
+  image:
+    repository: ghcr.io/your-org/insight-job-frontend
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 80
+  resources: {}
+
+api:
+  replicaCount: 1
+  image:
+    repository: ghcr.io/your-org/insight-job-backend
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 3000
+  env:
+    backendPort: 3000
+    jwtSecret: change-me-in-production
+    frontendOrigin: ""
+    cookieSecure: false
+    smtpHost: smtp.gmail.com
+    smtpPort: 465
+    smtpSecure: true
+    smtpUser: ""
+    smtpPass: ""
+    emailFromEmail: ""
+    emailFromName: Insight Job
+  resources: {}
+
+postgres:
+  image:
+    repository: postgres
+    tag: "16"
+    pullPolicy: IfNotPresent
+  service:
+    port: 5432
+  auth:
+    database: insight_job_db
+    username: savadb
+    password: savadb
+  persistence:
+    enabled: true
+    size: 1Gi
+    storageClass: ""
+  resources: {}

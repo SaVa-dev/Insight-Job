@@ -1,0 +1,34 @@
+fullnameOverride: insight-job
+
+frontend:
+  image:
+    repository: insight-job/frontend
+    tag: local
+    pullPolicy: Never
+  service:
+    type: NodePort
+    port: 80
+
+api:
+  image:
+    repository: insight-job/backend
+    tag: local
+    pullPolicy: Never
+  env:
+    backendPort: 3000
+    jwtSecret: minikube-dev-secret
+    frontendOrigin: ""
+    cookieSecure: false
+    smtpHost: smtp.gmail.com
+    smtpPort: 465
+    smtpSecure: true
+    smtpUser: ""
+    smtpPass: ""
+    emailFromEmail: ""
+    emailFromName: Insight Job
+
+postgres:
+  auth:
+    database: insight_job_db
+    username: savadb
+    password: savadb

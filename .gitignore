@@ -4,6 +4,11 @@ backend/node_modules
 .vscode
 *.csv
 */cities5000.txt
+.codex
+minikube-linux-amd64
+__pycache__/
+*/__pycache__/
+*.pyc
 
 # Especificos de csv.
 

@@ -8,7 +8,7 @@ CREATE TABLE users(
     user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     username VARCHAR(16) NOT NULL,
     usermail VARCHAR(32) NOT NULL UNIQUE,
-    password VARCHAR(64) NOT NULL, -- hash bcrypt
+    password VARCHAR(64) NOT NULL,
     creation_date TIMESTAMP NOT NULL DEFAULT NOW(),
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
     is_admin BOOLEAN NOT NULL DEFAULT FALSE
@@ -32,7 +32,6 @@ CREATE TABLE locations(
     country_code VARCHAR(2)
 );
 
-
 -- Tables with foreign keys
 
 CREATE TABLE jobs(
@@ -40,7 +39,7 @@ CREATE TABLE jobs(
     title VARCHAR(64) NOT NULL,
     description TEXT NOT NULL,
     source_url TEXT NOT NULL UNIQUE,
-    fingerprint VARCHAR(32) NOT NULL UNIQUE, -- hash MD5
+    fingerprint VARCHAR(32) NOT NULL UNIQUE,
     experience_min NUMERIC(4, 1),
     experience_max NUMERIC(4, 1),
     first_seen_at TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -60,7 +59,6 @@ CREATE TABLE user_profile(
     user_id UUID NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
-
 
 -- Intermediate tables
 
@@ -121,22 +119,3 @@ CREATE TABLE user_profile_company(
     FOREIGN KEY (user_profile_id) REFERENCES user_profile(user_profile_id),
     FOREIGN KEY (company_id) REFERENCES companies(company_id)
 );
-
-CREATE TABLE email_notification(
-    notification_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL,
-    recipient_email VARCHAR(255) NOT NULL,
-    subject VARCHAR(255) NOT NULL,
-    message TEXT NOT NULL,
-    status VARCHAR(32) NOT NULL DEFAULT 'pending',
-    provider_message_id VARCHAR(255),
-    provider_response JSONB,
-    error_message TEXT,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    sent_at TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    CHECK (status IN ('pending', 'sent', 'failed'))
-);
-
-CREATE INDEX idx_email_notification_user_created_at
-ON email_notification (user_id, created_at DESC);

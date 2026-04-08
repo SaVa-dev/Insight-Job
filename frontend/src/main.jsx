@@ -12,6 +12,7 @@ import PublicRoute    from './components/PublicRoute.jsx'
 import Profiles       from './pages/Profiles.jsx'
 import NewProfile     from './pages/NewProfile.jsx'
 import Account from './pages/Account.jsx'
+import Notifications from './pages/Notifications.jsx'
 
 const router = createBrowserRouter([
     { path: '/',                element: <Navigate to="/login" replace /> },
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
     { path: '/profiles',        element: <ProtectedRoute>   <Profiles />    </ProtectedRoute>   },
     { path: '/profiles/new',    element: <ProtectedRoute>   <NewProfile />  </ProtectedRoute>   },
     { path: '/account', element: <ProtectedRoute><Account /></ProtectedRoute> },
+    { path: '/notifications', element: <ProtectedRoute><Notifications /></ProtectedRoute> },
     { path: '*',                element: <NotFound /> },
 ])
 

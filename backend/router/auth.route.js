@@ -9,7 +9,7 @@ const router = express.Router()
 
 const cookieOptions = {
     httpOnly: true,
-    secure: false,
+    secure: env.srv.cookieSecure,
     sameSite: 'lax',
     maxAge: 7 * 24 * 60 * 60 * 1000
 }
@@ -65,7 +65,11 @@ router.post('/register', async (req, res) => {
 
 // POST /auth/logout
 router.post('/logout', authenticate, (req, res) => {
-    res.clearCookie('token')
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: cookieOptions.secure,
+        sameSite: cookieOptions.sameSite
+    })
     res.status(200).json({ message: 'Logged out' })
 })
 

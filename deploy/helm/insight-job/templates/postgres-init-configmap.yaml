@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "insight-job.fullname" . }}-postgres-init
+  labels:
+    {{- include "insight-job.labels" . | nindent 4 }}
+data:
+  01-extensions.sql: |
+    {{- .Files.Get "files/initdb/extensions.sql" | nindent 4 }}
+  02-schema.sql: |
+    {{- .Files.Get "files/initdb/schema.sql" | nindent 4 }}
+  03-skills-seeder.sql: |
+    {{- .Files.Get "files/initdb/skills_seeder.sql" | nindent 4 }}
+  04-notifications.sql: |
+    {{- .Files.Get "files/initdb/notifications.sql" | nindent 4 }}

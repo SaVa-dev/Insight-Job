@@ -4,40 +4,31 @@ import AuthPanel from '../components/AuthPanel'
 import AuthInput from '../components/AuthInput'
 import AuthButton from '../components/AuthButton'
 import AuthError from '../components/AuthError'
+import { useAuth } from '../hooks/useAuth'
 
 export default function Register() {
   const [form, setForm] = useState({ username: '', usermail: '', password: '', confirm: '' })
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [validationError, setValidationError] = useState('')
+  const { register, error, loading } = useAuth()
   const navigate = useNavigate()
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
-    setError('')
+    setValidationError('')
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (form.password !== form.confirm) {
-      setError('Las contraseñas no coinciden')
+      setValidationError('Las contraseñas no coinciden')
       return
     }
-    setLoading(true)
-    try {
-      const res = await fetch('http://localhost:3000/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: form.username, usermail: form.usermail, password: form.password })
-      })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Error al crear la cuenta')
-      localStorage.setItem('token', data.token)
-      navigate('/dashboard')
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
-    }
+    const ok = await register({
+      username: form.username,
+      usermail: form.usermail,
+      password: form.password,
+    })
+    if (ok) navigate('/dashboard')
   }
 
   return (
@@ -85,7 +76,7 @@ export default function Register() {
             <AuthInput label="Correo" name="usermail" type="email" placeholder="tu@correo.com" value={form.usermail} onChange={handleChange} required />
             <AuthInput label="Contraseña" name="password" type="password" placeholder="••••••••" value={form.password} onChange={handleChange} required />
             <AuthInput label="Confirmar contraseña" name="confirm" type="password" placeholder="••••••••" value={form.confirm} onChange={handleChange} required />
-            <AuthError message={error} />
+            <AuthError message={validationError || error} />
             <AuthButton loading={loading} label="Crear cuenta" loadingLabel="Creando cuenta..." />
           </form>
 
